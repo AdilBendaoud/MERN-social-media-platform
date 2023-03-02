@@ -8,6 +8,10 @@ import multer from "multer";
 import dotenv from "dotenv";
 import { register } from "./controllers/auth.js";
 import authRoutes from "./routes/authRoutes.js";
+import usersRoutes from "./routes/users.js";
+import postRoutes from "./routes/posts.js";
+import { createPost } from "./controllers/posts.js";
+import { verifyToken } from "./middleware/auth.js";
 
 
 dotenv.config();
@@ -45,5 +49,8 @@ mongoose
 
 /* route for registration*/
 //TODO: you need to add uplaod.single("picture") after route
-app.post("/auth/register", register);
+app.post("/auth/register",upload.single("picture"), register);
+app.post("/posts",verifyToken,upload.single("picture"), createPost);
 app.use("/auth", authRoutes);
+app.use("/users", usersRoutes);
+app.use("/posts", postRoutes);
