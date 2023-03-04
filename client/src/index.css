@@ -5,3 +5,24 @@
     padding: 0;
     font-family: "Roboto", sans-serif;
 }
+
+nav .navbar-collapse.collapse{
+    overflow: hidden;
+}
+
+@media (max-width:991px){
+    nav .navbar-collapse.collapse.active{
+        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+nav .navbar-collapse{
+    transition: 2s all ease-in-out;
+}
+
+#myForm{
+    max-width: 650px;
+}
