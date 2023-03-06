@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { FiEdit } from "react-icons/fi";
 import { IoLocationSharp } from "react-icons/io5";
 import { BsFillPersonFill, BsTwitter, BsLinkedin } from "react-icons/bs";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Userinfo({ userid, picPath }) {
   const [user, setUser] = useState(null);
@@ -28,8 +28,8 @@ export default function Userinfo({ userid, picPath }) {
     console.log("effect");
   }, []);
 
-  if(!user){
-    return
+  if (!user) {
+    return;
   }
   const name =
     user.firstName.charAt(0).toUpperCase() +
@@ -49,7 +49,12 @@ export default function Userinfo({ userid, picPath }) {
           />
           <h5>{name}</h5>
         </div>
-        <div onClick={()=>redirect(`/profile/${userid}`)}>
+        <div
+          onClick={() => {
+            navigate(`/profile/${userid}`);
+            navigate(0);
+          }}
+        >
           <FiEdit size={23} style={{ color: "white", cursor: "pointer" }} />
         </div>
       </div>
