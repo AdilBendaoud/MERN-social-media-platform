@@ -38,7 +38,7 @@ export default function Userinfo({ userid, picPath }) {
     user.lastName.charAt(0).toUpperCase() +
     user.lastName.slice(1);
   return (
-    <div className="pt-4" style={{ width: "85%" }}>
+    <div className="px-3 py-4 mt-3 rounded-3" style={{ width: "85%",backgroundColor:"#1A1A1A" }}>
       <div className="d-flex border-bottom pb-3 w-100 text-white align-items-center justify-content-between">
         <div className="d-flex align-items-center">
           <img

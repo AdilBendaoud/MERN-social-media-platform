@@ -36,7 +36,7 @@ export default function Posts({ userId, userProfile = false }) {
   }, []);
 
   return (
-    <div>
+    <div className='pt-3 px-2'>
       {posts.map(
         ({
           _id,
@@ -49,7 +49,7 @@ export default function Posts({ userId, userProfile = false }) {
           likes,
           dislikes,
           comments,
-        }) =>
+        }) => (
           <Post
             key={_id}
             postId={_id}
@@ -63,7 +63,7 @@ export default function Posts({ userId, userProfile = false }) {
             dislikes={dislikes}
             comments={comments}
           />
-          
+        )
       )}
     </div>
   );

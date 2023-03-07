@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Friend from "../../components/Friend";
 import { useSelector, useDispatch } from "react-redux";
-import { setPost } from "../../store/authSlice";
+import { setPost } from "../../store/authSlice.js";
 import {
+  AiOutlineLike,
+  AiOutlineDislike,
   AiFillLike,
   AiFillDislike,
   AiOutlineComment,
@@ -21,20 +23,21 @@ export default function Post({
   comments,
 }) {
   const [showComments, setShowComments] = useState(false);
+  const [showFulldesc, setShowFulldesc] = useState(false);
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.myPersistReducer.toke);
+  const token = useSelector((state) => state.myPersistReducer.token);
   const logedUser = useSelector((state) => state.myPersistReducer.user._id);
   const isLiked = Boolean(logedUser in likes);
   const isDisLiked = Boolean(logedUser in dislikes);
   const likeCount = Object.keys(likes).length;
   const disLikeCount = Object.keys(dislikes).length;
-
-  if (likes) {
-    console.log(likes);
-  } else {
-    console.log(likes.length);
-  }
-
+  const showMore = (e) => {
+    if (showFulldesc) {
+      e.target.previousElementSibling.classList.add("text-truncate");
+    } else {
+      e.target.previousElementSibling.classList.remove("text-truncate");
+    }
+  };
   const patchLikeDislike = async (param) => {
     const response = await fetch(
       `http://localhost:5000/posts/${postId}/${param}`,
@@ -53,9 +56,20 @@ export default function Post({
   };
 
   return (
-    <div>
+    <div className=" mb-4 rounded-3 py-4 px-3" style={{backgroundColor:"#1A1A1A"}}>
       <Friend friendId={userId} name={name} userPicturePath={userPicturePath} />
-      <div>
+      <p className=" d-block text-truncate" style={{color:"#cccccc"}}>{description}</p>
+      <span
+        style={{ cursor: "pointer" }}
+        className="text-primary text-decoration-underline"
+        onClick={(e) => {
+          showMore(e);
+          setShowFulldesc(!showFulldesc);
+        }}
+      >
+        {showFulldesc ? "Show less" : "Show more"}
+      </span>
+      <div className="mb-3">
         {picturePath && (
           <img
             width="100%"
@@ -66,35 +80,49 @@ export default function Post({
           />
         )}
       </div>
-      <div>
+      <div className="d-flex justify-content-evenly">
         <div>
-          <AiFillLike
-            onClick={() => patchLikeDislike("like")}
-            size={24}
-            style={{ cursor: "pointer" }}
-            color={isLiked ? "white" : ""}
-          />
-          <span>{likeCount}</span>
+          <span className="me-2" style={{color:"#cccccc"}}>{likeCount}</span>
+          {
+            isLiked ? (<AiFillLike
+              onClick={() => patchLikeDislike("like")}
+              size={24}
+              style={{ cursor: "pointer" }}
+              color="#cccccc" 
+            />):(<AiOutlineLike
+              onClick={() => patchLikeDislike("like")}
+              size={24}
+              style={{ cursor: "pointer" }}
+              color="#cccccc" 
+            />)
+          }
+          
         </div>
         <div>
-          <AiFillDislike
+          <span className="me-2" style={{color:"#cccccc"}}>{disLikeCount}</span>
+          {isDisLiked?(<AiFillDislike
             onClick={() => patchLikeDislike("dislike")}
             size={24}
             style={{ cursor: "pointer" }}
-            color={isDisLiked ? "white" : ""}
-          />
-          <span>{disLikeCount}</span>
+            color="#cccccc"
+          />):(<AiOutlineDislike
+            onClick={() => patchLikeDislike("dislike")}
+            size={24}
+            style={{ cursor: "pointer" }}
+            color="#cccccc"
+          />)}
         </div>
         <div>
+          <span className="me-2" style={{color:"#cccccc"}}>{comments.length}</span>
           <AiOutlineComment
+          color="#cccccc"
             size={24}
             style={{ cursor: "pointer" }}
             onClick={() => setShowComments(!showComments)}
           />
-          <span>{comments.length}</span>
         </div>
         <div>
-          <AiOutlineShareAlt style={{ cursor: "pointer" }} size={24} />
+          <AiOutlineShareAlt color="#cccccc" style={{ cursor: "pointer" }} size={24} />
         </div>
       </div>
       <div>

@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setPost, setPosts } from "../../store/authSlice";
 import Dropzone from "react-dropzone";
-import pic from "../../../public/my-uplaods/mypic.avif";
 import { BsFillTrash3Fill, BsCardImage } from "react-icons/bs";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 
 export default function AddPost({ picturePath }) {
-  const [uploadingImage, setuploadingImage] = useState(true);
+  const [uploadingImage, setuploadingImage] = useState(false);
   const [image, setImage] = useState(null);
   const [post, setPost] = useState("");
   const token = useSelector((state) => state.myPersistReducer.token);
@@ -36,10 +35,10 @@ export default function AddPost({ picturePath }) {
   };
 
   return (
-    <div className="p-4 w-100 bg-danger">
+    <div className="p-4 w-100 rounded-3" style={{backgroundColor:"#1A1A1A"}}>
       <div className=" mb-3">
         <img
-          src={pic}
+          src={`http://localhost:5000/assets/${picturePath}`}
           alt="user"
           width={53}
           height={53}
@@ -94,13 +93,15 @@ export default function AddPost({ picturePath }) {
         <div
           style={{ cursor: "pointer" }}
           onClick={() => setuploadingImage(!uploadingImage)}
+          className="d-flex align-items-center"
         >
-          <BsCardImage size={25} /> <span>Add image</span>
+          <BsCardImage size={25} color="#cccccc" /> <span className="ms-2" style={{color:"#cccccc"}}>Add image</span>
         </div>
         <div>
           <button
             onClick={() => hundelSubmit()}
-            className="btn btn-info fw-bold px-4 py-2 rounded-pill"
+            style={{backgroundColor:"#cccccc"}}
+            className="btn  fw-bold px-4 py-2 rounded-pill"
           >
             POST
           </button>
